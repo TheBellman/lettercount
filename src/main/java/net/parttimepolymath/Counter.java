@@ -39,15 +39,13 @@ public final class Counter {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(Counter.class);
     /**
-     * the number of sub threads to launch. this will become a parameter later.
-     */
-    private static final int NTHREADS = 4;
-
-    /**
      * the path being processed by this instance.
      */
     private final Path inputPath;
-
+    /**
+     * the number of threads to run.
+     */
+    private final int threadCount;
     /**
      * the current set of counts. By using a tree map we get sorting for free.
      */
@@ -62,9 +60,11 @@ public final class Counter {
      * primary constructor.
      * 
      * @param path specification of the file to process. We assume this is a good, non-null value that points to a readable file.
+     * @param nThreads the number of threads to run.
      */
-    public Counter(final Path path) {
+    public Counter(final Path path, final int nThreads) {
         inputPath = path;
+        threadCount = nThreads;
     }
 
     /**
@@ -94,7 +94,7 @@ public final class Counter {
      * @throws IOException if we get file reads.
      */
     public void execute() throws IOException {
-        ExecutorService executorService = Executors.newFixedThreadPool(NTHREADS);
+        ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(inputPath.toFile()), "UTF8"))) {
             List<Future<Map<Character, MutableInt>>> results = new ArrayList<>();

@@ -13,6 +13,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * main executable entry point for the application. This does little more than provide a CLI and bootstrap up the
@@ -21,6 +22,11 @@ import org.apache.commons.cli.PosixParser;
  * @author robert
  */
 public class Main {
+    /**
+     * default number of threads.
+     */
+    private static final int NTHREADS = 4;
+
     /**
      * application properties loaded from the classpath.
      */
@@ -37,6 +43,7 @@ public class Main {
         options.addOption("?", "help", false, "print this message");
         options.addOption("v", "version", false, "print version");
         options.addOption("f", "file", true, "specify the input file");
+        options.addOption("n", "threads", true, "optionally specify the number of worker threads (defaults to 4)");
 
         // Yes, this is ugly. sue me.
         CommandLineParser parser = new PosixParser();
@@ -49,7 +56,10 @@ public class Main {
                 doVersion();
             } else {
                 if (cmd.hasOption('f') && validateFile(cmd.getOptionValue('f'))) {
-                    Counter instance = new Counter(Paths.get(cmd.getOptionValue('f')));
+
+                    int nThreads = parseThreads(cmd);
+
+                    Counter instance = new Counter(Paths.get(cmd.getOptionValue('f')), nThreads);
                     instance.execute();
                     instance.report(System.out);
                 } else {
@@ -60,6 +70,27 @@ public class Main {
             doHelp(options);
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    /**
+     * work out if the thread count has been added to the command
+     * 
+     * @param cmd the command line we are parsing.
+     * @return a value greater than 0.
+     */
+    private static int parseThreads(final CommandLine cmd) {
+        if (!cmd.hasOption('n')) {
+            return NTHREADS;
+        }
+        try {
+            Integer result = NumberUtils.createInteger(cmd.getOptionValue('n'));
+            if (result == null || result < 1) {
+                return NTHREADS;
+            }
+            return result;
+        } catch (NumberFormatException nfe) {
+            return NTHREADS;
         }
     }
 

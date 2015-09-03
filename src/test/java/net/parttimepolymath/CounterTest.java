@@ -23,7 +23,7 @@ public class CounterTest {
         File testFile = tempFolder.newFile();
         IOUtils.copy(this.getClass().getResourceAsStream("/33437.txt.utf-8.txt"), new FileWriter(testFile));
 
-        Counter instance = new Counter(testFile.toPath());
+        Counter instance = new Counter(testFile.toPath(), 4);
         instance.execute();
         instance.report(System.out);
 

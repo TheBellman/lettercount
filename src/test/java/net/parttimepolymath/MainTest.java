@@ -12,8 +12,9 @@ public class MainTest {
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().enableLog().muteForSuccessfulTests();
 
-    private final static String USAGE = "usage: LetterCount\n" + " -?,--help         print this message\n"
-            + " -f,--file <arg>   specify the input file\n" + " -v,--version      print version\n";
+    private final static String USAGE = "usage: LetterCount\n -?,--help            print this message\n -f,--file <arg>      specify"
+            + " the input file\n -n,--threads <arg>   optionally specify the number of worker threads\n"
+            + "                      (defaults to 4)\n -v,--version         print version\n";
 
     @After
     public void tearDown() throws Exception {
