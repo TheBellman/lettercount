@@ -15,10 +15,6 @@ public class MainTest {
     private final static String USAGE = "usage: LetterCount\n" + " -?,--help         print this message\n"
             + " -f,--file <arg>   specify the input file\n" + " -v,--version      print version\n";
 
-    // @Before
-    // public void setUp() throws Exception {
-    // }
-
     @After
     public void tearDown() throws Exception {
         systemOutRule.clearLog();

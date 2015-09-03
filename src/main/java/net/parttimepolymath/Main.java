@@ -49,8 +49,9 @@ public class Main {
                 doVersion();
             } else {
                 if (cmd.hasOption('f') && validateFile(cmd.getOptionValue('f'))) {
-                    Main instance = new Main();
-                    instance.execute(Paths.get(cmd.getOptionValue('f')));
+                    Counter instance = new Counter(Paths.get(cmd.getOptionValue('f')));
+                    instance.execute();
+                    instance.report(System.out);
                 } else {
                     doHelp(options);
                 }
@@ -71,16 +72,6 @@ public class Main {
     private static boolean validateFile(final String pathName) {
         Path path = Paths.get(pathName);
         return Files.isReadable(path) && Files.isRegularFile(path);
-    }
-
-    /**
-     * Run the process. Yes, there is a race condition in that the file may go away between checking that it
-     * exists and is usable and when we start to try reading it.
-     * 
-     * @param path the path to the file, assumed non-null and to refer to a file.
-     */
-    private void execute(final Path path) {
-        // TODO Auto-generated method stub
     }
 
     /**
