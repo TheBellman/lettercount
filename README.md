@@ -6,9 +6,11 @@ There are a bunch of caveats around this, beginning with the obvious that this i
 ## Usage
 ```
 usage: LetterCount
- -?,--help         print this message
- -f,--file <arg>   specify the input file
- -v,--version      print version
+ -?,--help            print this message
+ -f,--file <arg>      specify the input file
+ -n,--threads <arg>   optionally specify the number of worker threads
+                      (defaults to 4)
+ -v,--version         print version
  ```
  
 ## Performance notes
