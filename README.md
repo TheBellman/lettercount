@@ -23,3 +23,15 @@ There are some small nods towards performance and thread safety, although the cl
 1. the `Counter` attempts to ensure that the `report()` operation returns consistent results for the state of processing reached at the time we call it - the internal accumulator has a mutex on them so that it can either be read or written at a given point in time;
 2. the `CounterWorker` uses a `MutableInt` to accumulate counts in order to reduce the number of operations against the internal `Map`
 3. using a `TreeMap` for the accumulator gives us sorting for free.
+
+## License
+
+Copyright 2026 Little Dog Digital
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
